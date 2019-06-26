@@ -7,7 +7,7 @@ from torchvision import models
 from config import device, grad_clip, print_freq
 from data_gen import LIPDataset
 from utils import parse_args, save_checkpoint, AverageMeter, clip_gradient, get_logger, get_learning_rate, \
-    adjust_learning_rate
+    adjust_learning_rate, accuracy
 
 
 def train_net(args):
@@ -96,6 +96,7 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
     model.train()  # train mode (dropout and batchnorm is used)
 
     losses = AverageMeter()
+    accs = AverageMeter()
 
     # Batches
     for i, (img, label) in enumerate(train_loader):
@@ -108,6 +109,7 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
 
         # Calculate loss
         loss = criterion(out, label)
+        acc = accuracy(out, label)
 
         # Back prop.
         optimizer.zero_grad()
@@ -121,12 +123,14 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
 
         # Keep track of metrics
         losses.update(loss.item())
+        accs.update(acc.item())
 
         # Print status
 
         if i % print_freq == 0:
             status = 'Epoch: [{0}][{1}/{2}]\t' \
-                     'Loss {loss.val:.4f} ({loss.avg:.4f})'.format(epoch, i, len(train_loader), loss=losses)
+                     'Loss {loss.val:.4f} ({loss.avg:.4f})\t' \
+                     'Accuracy {acc.val:.4f} ({acc.avg:.4f})'.format(epoch, i, len(train_loader), loss=losses, acc=accs)
             logger.info(status)
 
     return losses.avg
@@ -136,6 +140,7 @@ def valid(valid_loader, model, criterion, logger):
     model.eval()  # eval mode (dropout and batchnorm is NOT used)
 
     losses = AverageMeter()
+    accs = AverageMeter()
 
     # Batches
     for img, label in valid_loader:
@@ -148,12 +153,14 @@ def valid(valid_loader, model, criterion, logger):
 
         # Calculate loss
         loss = criterion(out, label)
+        acc = accuracy(out, label)
 
         # Keep track of metrics
         losses.update(loss.item())
+        accs.update(acc.item())
 
     # Print status
-    status = 'Validation: Loss {loss.avg:.4f}\n'.format(loss=losses)
+    status = 'Validation: Loss {loss.avg:.4f} Accuracy {acc.avg:.4f}\n'.format(loss=losses, acc=accs)
 
     logger.info(status)
 
