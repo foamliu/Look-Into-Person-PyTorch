@@ -105,7 +105,7 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
         label = label.type(torch.LongTensor).to(device)  # [N, 320, 320]
 
         # Forward prop.
-        out = model(img)['out']  # [N, 3, 320, 320]
+        out = model(img)['out']  # [N, 320, 320]
 
         # Calculate loss
         loss = criterion(out, label)
@@ -149,7 +149,7 @@ def valid(valid_loader, model, criterion, logger):
         label = label.type(torch.FloatTensor).to(device)  # [N, 320, 320]
 
         # Forward prop.
-        out = model(img)  # [N, 320, 320]
+        out = model(img)['out']  # [N, 320, 320]
 
         # Calculate loss
         loss = criterion(out, label)
