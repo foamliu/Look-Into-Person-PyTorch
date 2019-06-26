@@ -72,20 +72,24 @@ class LIPDataset(Dataset):
     def __getitem__(self, i):
         name = self.names[i]
         filename = os.path.join(self.images_folder, name + '.jpg')
-        image = cv.imread(filename)
-        image_size = image.shape[:2]
+        img = cv.imread(filename)
+        image_size = img.shape[:2]
         category = get_category(self.categories_folder, name)
 
         x, y = random_choice(image_size)
-        image = safe_crop(image, x, y)
+        img = safe_crop(img, x, y)
         category = safe_crop(category, x, y).astype(np.int)
 
         if np.random.random_sample() > 0.5:
-            image = np.fliplr(image)
+            img = np.fliplr(img)
             category = np.fliplr(category)
 
-        x = image / 255.
+        img = img[..., ::-1]  # RGB
+        img = np.transpose(img, (2, 0, 1))
+        x = img / 255.
+
         y = category
+        print(y.shape)
         y = to_categorical(y, num_classes)
 
         return x, y
