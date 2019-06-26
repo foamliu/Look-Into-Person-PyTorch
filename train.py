@@ -123,7 +123,7 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
 
         # Keep track of metrics
         losses.update(loss.item())
-        accs.update(acc.item())
+        accs.update(acc)
 
         # Print status
 
@@ -157,7 +157,7 @@ def valid(valid_loader, model, criterion, logger):
 
         # Keep track of metrics
         losses.update(loss.item())
-        accs.update(acc.item())
+        accs.update(acc)
 
     # Print status
     status = 'Validation: Loss {loss.avg:.4f} Accuracy {acc.avg:.4f}\n'.format(loss=losses, acc=accs)
