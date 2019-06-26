@@ -101,13 +101,10 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
     for i, (img, label) in enumerate(train_loader):
         # Move to GPU, if available
         img = img.type(torch.FloatTensor).to(device)  # [N, 3, 320, 320]
-        label = label.type(torch.FloatTensor).to(device)  # [N, 320, 320]
+        label = label.type(torch.LongTensor).to(device)  # [N, 320, 320]
 
         # Forward prop.
         out = model(img)['out']  # [N, 3, 320, 320]
-
-        print(out.size())
-        print(label.size())
 
         # Calculate loss
         loss = criterion(out, label)
