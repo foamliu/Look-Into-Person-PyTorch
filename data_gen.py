@@ -78,7 +78,7 @@ class LIPDataset(Dataset):
 
         x, y = random_choice(image_size)
         image = safe_crop(image, x, y)
-        category = safe_crop(category, x, y)
+        category = safe_crop(category, x, y).astype(np.int)
 
         if np.random.random_sample() > 0.5:
             image = np.fliplr(image)
