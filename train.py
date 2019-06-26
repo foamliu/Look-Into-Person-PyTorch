@@ -20,7 +20,7 @@ def train_net(args):
 
     # Initialize / load checkpoint
     if checkpoint is None:
-        model = models.segmentation.deeplabv3_resnet50(pretrained=False, progress=True, num_classes=20)
+        model = models.segmentation.deeplabv3_resnet50(pretrained=True, progress=True, num_classes=20)
         model = nn.DataParallel(model)
 
         if args.optimizer == 'sgd':
