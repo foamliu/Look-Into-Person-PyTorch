@@ -56,9 +56,9 @@ def random_choice(image_size):
 def safe_crop(mat, x, y):
     crop_height, crop_width = 320, 320
     if len(mat.shape) == 2:
-        ret = np.zeros((crop_height, crop_width), np.float32)
+        ret = np.zeros((crop_height, crop_width), np.long)
     else:
-        ret = np.zeros((crop_height, crop_width, 3), np.float32)
+        ret = np.zeros((crop_height, crop_width, 3), np.long)
     crop = mat[y:y + crop_height, x:x + crop_width]
     h, w = crop.shape[:2]
     ret[0:h, 0:w] = crop
@@ -94,7 +94,6 @@ class LIPDataset(Dataset):
         img = safe_crop(img, x, y)
         category = safe_crop(category, x, y)
         category = np.clip(category, 0, num_classes - 1)
-        category = category.astype(np.long)
 
         if np.random.random_sample() > 0.5:
             img = np.fliplr(img)
