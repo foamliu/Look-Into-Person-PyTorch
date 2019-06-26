@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from tensorboardX import SummaryWriter
 from torch import nn
-
+from torchvision import models
 from config import device, im_size, grad_clip, print_freq
 from data_gen import LIPDataset
 
@@ -20,7 +20,7 @@ def train_net(args):
 
     # Initialize / load checkpoint
     if checkpoint is None:
-        model = DIMModel(n_classes=1, in_channels=4, is_unpooling=True, pretrain=True)
+        model = models.segmentation.deeplabv3_resnet50(pretrained=False, progress=True, num_classes=20)
         model = nn.DataParallel(model)
 
         if args.optimizer == 'sgd':
