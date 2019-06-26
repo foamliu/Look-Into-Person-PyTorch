@@ -89,7 +89,6 @@ class LIPDataset(Dataset):
         x = img / 255.
 
         y = category
-        print(y.shape)
         y = to_categorical(y, num_classes)
 
         return x, y
