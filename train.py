@@ -104,8 +104,8 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
         label = label.type(torch.FloatTensor).to(device)  # [N, 320, 320]
 
         # Forward prop.
-        out = model(img)  # [N, 3, 320, 320]
-        print(out)
+        out = model(img)['out']  # [N, 3, 320, 320]
+
         print(out.size())
         print(label.size())
 
