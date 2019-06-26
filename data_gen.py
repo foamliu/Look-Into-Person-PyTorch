@@ -5,8 +5,8 @@ import cv2 as cv
 import numpy as np
 from torch.utils.data import Dataset
 
-from config import im_size, num_classes, color_map
-from utils import to_categorical
+from config import im_size, color_map, num_classes
+
 
 train_images_folder = 'data/instance-level_human_parsing/Training/Images'
 train_categories_folder = 'data/instance-level_human_parsing/Training/Category_ids'
@@ -78,7 +78,9 @@ class LIPDataset(Dataset):
 
         x, y = random_choice(image_size)
         img = safe_crop(img, x, y)
-        category = safe_crop(category, x, y).astype(np.int)
+        category = safe_crop(category, x, y)
+        category = np.clip(category, 0, num_classes-1)
+        category = category.astype(np.long)
 
         if np.random.random_sample() > 0.5:
             img = np.fliplr(img)
