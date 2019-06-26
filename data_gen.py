@@ -56,9 +56,9 @@ def random_choice(image_size):
 def safe_crop(mat, x, y):
     crop_height, crop_width = 320, 320
     if len(mat.shape) == 2:
-        ret = np.zeros((crop_height, crop_width), np.int)
+        ret = np.zeros((crop_height, crop_width), np.uint8)
     else:
-        ret = np.zeros((crop_height, crop_width, 3), np.int)
+        ret = np.zeros((crop_height, crop_width, 3), np.uint8)
     crop = mat[y:y + crop_height, x:x + crop_width]
     h, w = crop.shape[:2]
     ret[0:h, 0:w] = crop
