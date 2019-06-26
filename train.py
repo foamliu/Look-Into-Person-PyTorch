@@ -106,6 +106,9 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
         # Forward prop.
         out = model(img)  # [N, 3, 320, 320]
 
+        print(out.size())
+        print(label.size())
+
         # Calculate loss
         loss = criterion(out, label)
 
