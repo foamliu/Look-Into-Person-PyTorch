@@ -89,8 +89,6 @@ class LIPDataset(Dataset):
         x = img / 255.
 
         y = category
-        y = to_categorical(y, num_classes)
-        y = np.transpose(y, (2, 0, 1))
 
         return x, y
 
