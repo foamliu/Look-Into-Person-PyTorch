@@ -3,7 +3,9 @@ import random
 
 import cv2 as cv
 import numpy as np
+import torch
 from torch.utils.data import Dataset
+from torchvision import transforms
 
 from config import im_size, color_map, num_classes
 
@@ -11,6 +13,19 @@ train_images_folder = 'data/instance-level_human_parsing/Training/Images'
 train_categories_folder = 'data/instance-level_human_parsing/Training/Category_ids'
 valid_images_folder = 'data/instance-level_human_parsing/Validation/Images'
 valid_categories_folder = 'data/instance-level_human_parsing/Validation/Category_ids'
+
+# Data augmentation and normalization for training
+# Just normalization for validation
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+    ]),
+    'valid': transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
 
 
 def get_category(categories_folder, name):
@@ -66,7 +81,7 @@ class LIPDataset(Dataset):
         with open(id_file, 'r') as f:
             self.names = f.read().splitlines()
 
-        np.random.shuffle(self.names)
+        self.transformer = data_transforms[split]
 
     def __getitem__(self, i):
         name = self.names[i]
@@ -86,12 +101,12 @@ class LIPDataset(Dataset):
             category = np.fliplr(category)
 
         img = img[..., ::-1]  # RGB
-        img = np.transpose(img, (2, 0, 1))
-        x = img / 255.
+        img = transforms.ToPILImage()(img)
+        img = self.transformer(img)
 
         y = category
 
-        return x, y
+        return img, torch.from_numpy(y.copy())
 
     def __len__(self):
         return len(self.names)
