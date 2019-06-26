@@ -7,7 +7,6 @@ from torch.utils.data import Dataset
 
 from config import im_size, color_map, num_classes
 
-
 train_images_folder = 'data/instance-level_human_parsing/Training/Images'
 train_categories_folder = 'data/instance-level_human_parsing/Training/Category_ids'
 valid_images_folder = 'data/instance-level_human_parsing/Validation/Images'
@@ -79,7 +78,7 @@ class LIPDataset(Dataset):
         x, y = random_choice(image_size)
         img = safe_crop(img, x, y)
         category = safe_crop(category, x, y)
-        category = np.clip(category, 0, num_classes-1)
+        category = np.clip(category, 0, num_classes - 1)
         category = category.astype(np.long)
 
         if np.random.random_sample() > 0.5:
