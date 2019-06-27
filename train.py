@@ -53,11 +53,11 @@ def train_net(args):
 
     # Epochs
     for epoch in range(start_epoch, args.end_epoch):
-        if epochs_since_improvement == 20:
+        if epochs_since_improvement == 10:
             break
 
-        if epochs_since_improvement > 0 and epochs_since_improvement % 8 == 0:
-            adjust_learning_rate(optimizer, 0.8)
+        if epochs_since_improvement > 0 and epochs_since_improvement % 2 == 0:
+            adjust_learning_rate(optimizer, 0.6)
 
         # One epoch's training
         train_loss = train(train_loader=train_loader,
