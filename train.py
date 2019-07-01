@@ -60,24 +60,26 @@ def train_net(args):
             adjust_learning_rate(optimizer, 0.6)
 
         # One epoch's training
-        train_loss = train(train_loader=train_loader,
-                           model=model,
-                           criterion=criterion,
-                           optimizer=optimizer,
-                           epoch=epoch,
-                           logger=logger)
+        train_loss, train_acc = train(train_loader=train_loader,
+                                      model=model,
+                                      criterion=criterion,
+                                      optimizer=optimizer,
+                                      epoch=epoch,
+                                      logger=logger)
         effective_lr = get_learning_rate(optimizer)
         print('Current effective learning rate: {}\n'.format(effective_lr))
 
         writer.add_scalar('Train_Loss', train_loss, epoch)
+        writer.add_scalar('Train_Accuracy', train_acc, epoch)
 
         # One epoch's validation
-        valid_loss = valid(valid_loader=valid_loader,
-                           model=model,
-                           criterion=criterion,
-                           logger=logger)
+        valid_loss, valid_acc = valid(valid_loader=valid_loader,
+                                      model=model,
+                                      criterion=criterion,
+                                      logger=logger)
 
         writer.add_scalar('Valid_Loss', valid_loss, epoch)
+        writer.add_scalar('Valid_Accuracy', valid_acc, epoch)
 
         # Check if there was an improvement
         is_best = valid_loss < best_loss
@@ -133,7 +135,7 @@ def train(train_loader, model, criterion, optimizer, epoch, logger):
                      'Accuracy {acc.val:.4f} ({acc.avg:.4f})'.format(epoch, i, len(train_loader), loss=losses, acc=accs)
             logger.info(status)
 
-    return losses.avg
+    return losses.avg, accs.avg
 
 
 def valid(valid_loader, model, criterion, logger):
@@ -164,7 +166,7 @@ def valid(valid_loader, model, criterion, logger):
 
     logger.info(status)
 
-    return losses.avg
+    return losses.avg, accs.avg
 
 
 def main():
