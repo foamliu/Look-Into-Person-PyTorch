@@ -1,6 +1,6 @@
 # Look Into Person
 
-This repository is to do Human Parsing with DeepLabv3.
+Human Parsing with DeepLabv3.
 
 ## Dependencies
 - [NumPy](http://docs.scipy.org/doc/numpy-1.10.1/user/install.html)
