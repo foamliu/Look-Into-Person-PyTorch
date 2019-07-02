@@ -53,12 +53,12 @@ if __name__ == '__main__':
         out = np.argmax(out, axis=2)
         out = to_bgr(out)
 
-        ret = image * 0.6 + out * 0.4
+        ret = img * 0.6 + out * 0.4
         ret = ret.astype(np.uint8)
 
         if not os.path.exists('images'):
             os.makedirs('images')
 
-        cv.imwrite('images/{}_image.png'.format(i), image)
+        cv.imwrite('images/{}_image.png'.format(i), img)
         cv.imwrite('images/{}_merged.png'.format(i), ret)
         cv.imwrite('images/{}_out.png'.format(i), out)
