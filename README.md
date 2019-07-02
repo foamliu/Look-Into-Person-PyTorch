@@ -1,6 +1,6 @@
 # Look Into Person
 
-Human Parsing with DeepLabv3.
+Human Parsing with DeepLabv3 in PyTorch.
 
 ## Dependencies
 - [NumPy](http://docs.scipy.org/doc/numpy-1.10.1/user/install.html)
