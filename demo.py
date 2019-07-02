@@ -44,7 +44,7 @@ if __name__ == '__main__':
         img = transformer(img)
         x_test[0:, 0:3, :, :] = img
 
-        out = model(x_test)
+        out = model(x_test)['out']
         out = out.cpu().numpy()
         out = np.reshape(out, (im_size, im_size, num_classes))
         out = np.argmax(out, axis=2)
