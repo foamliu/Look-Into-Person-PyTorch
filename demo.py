@@ -49,8 +49,10 @@ if __name__ == '__main__':
             out = model(x_test)['out']
 
         out = out.cpu().numpy()
-        out = np.reshape(out, (im_size, im_size, num_classes))
+        print(out.shape)
+        out = np.reshape(out, (num_classes, im_size, im_size))
         out = np.argmax(out, axis=2)
+        print(out.shape)
         out = to_bgr(out)
 
         ret = image * 0.6 + out * 0.4

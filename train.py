@@ -4,7 +4,7 @@ from tensorboardX import SummaryWriter
 from torch import nn
 from torchvision import models
 
-from config import device, grad_clip, print_freq
+from config import device, grad_clip, print_freq, num_classes
 from data_gen import LIPDataset
 from utils import parse_args, save_checkpoint, AverageMeter, clip_gradient, get_logger, get_learning_rate, \
     adjust_learning_rate, accuracy
@@ -21,7 +21,7 @@ def train_net(args):
 
     # Initialize / load checkpoint
     if checkpoint is None:
-        model = models.segmentation.deeplabv3_resnet50(pretrained=False, progress=True, num_classes=20)
+        model = models.segmentation.deeplabv3_resnet50(pretrained=False, progress=True, num_classes=num_classes)
         model = nn.DataParallel(model)
 
         if args.optimizer == 'sgd':
