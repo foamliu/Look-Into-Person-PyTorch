@@ -32,15 +32,15 @@ if __name__ == '__main__':
     for i in range(len(samples)):
         image_name = samples[i]
         filename = os.path.join(test_images_folder, image_name + '.jpg')
-        img = cv.imread(filename)
-        image_size = img.shape[:2]
+        image = cv.imread(filename)
+        image_size = image.shape[:2]
 
         x, y = random_choice(image_size)
-        img = safe_crop(img, x, y)
+        image = safe_crop(image, x, y)
         print('Start processing image: {}'.format(filename))
 
         x_test = torch.zeros((1, 3, im_size, im_size), dtype=torch.float)
-        img = img[..., ::-1]  # RGB
+        img = image[..., ::-1]  # RGB
         img = transforms.ToPILImage()(img)
         img = transformer(img)
         x_test[0:, 0:3, :, :] = img
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         out = np.argmax(out, axis=2)
         out = to_bgr(out)
 
-        ret = img * 0.6 + out * 0.4
+        ret = image * 0.6 + out * 0.4
         ret = ret.astype(np.uint8)
 
         if not os.path.exists('images'):
