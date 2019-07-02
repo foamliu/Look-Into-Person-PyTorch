@@ -48,11 +48,8 @@ if __name__ == '__main__':
         with torch.no_grad():
             out = model(x_test)['out']
 
-        out = out.cpu().numpy()
-        print(out.shape)
-        out = np.reshape(out, (num_classes, im_size, im_size))
-        out = np.argmax(out, axis=2)
-        print(out.shape)
+        out = out.cpu().numpy()[0]
+        out = np.argmax(out, axis=0)
         out = to_bgr(out)
 
         ret = image * 0.6 + out * 0.4
