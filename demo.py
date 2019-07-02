@@ -9,6 +9,7 @@ from torchvision import transforms
 
 from config import device, im_size, num_classes
 from data_gen import random_choice, safe_crop, to_bgr, data_transforms
+from utils import ensure_folder
 
 if __name__ == '__main__':
     checkpoint = 'BEST_checkpoint.tar'
@@ -19,7 +20,7 @@ if __name__ == '__main__':
 
     transformer = data_transforms['valid']
 
-    print(model.summary())
+    ensure_folder('images')
 
     test_images_folder = 'data/instance-level_human_parsing/Testing/Images'
     id_file = 'data/instance-level_human_parsing/Testing/test_id.txt'

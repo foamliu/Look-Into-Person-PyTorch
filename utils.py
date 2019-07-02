@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 
 import cv2 as cv
 import numpy as np
@@ -146,3 +147,8 @@ def safe_crop(mat, x, y, crop_size=(im_size, im_size)):
     if crop_size != (im_size, im_size):
         ret = cv.resize(ret, dsize=(im_size, im_size), interpolation=cv.INTER_NEAREST)
     return ret
+
+
+def ensure_folder(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
