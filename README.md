@@ -1,6 +1,6 @@
 # Look Into Person
 
-This repository is to do Human Parsing with DeepLabv3.
+Human Parsing with DeepLabv3 in PyTorch.
 
 ## Dependencies
 - [NumPy](http://docs.scipy.org/doc/numpy-1.10.1/user/install.html)
@@ -15,7 +15,9 @@ Follow the [instruction](http://sysu-hcp.net/lip/index.php) to download Look-Int
 
 ## Architecture
 
-![image](https://github.com/foamliu/Look-Into-Person/raw/master/images/segnet.png)
+DeepLab-v3+
+
+![image](https://github.com/foamliu/Look-Into-Person-v2/raw/master/images/deeplabv3.png)
 
 
 ## Usage
