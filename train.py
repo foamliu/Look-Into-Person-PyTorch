@@ -1,7 +1,7 @@
 import numpy as np
 import torch
-from tensorboardX import SummaryWriter
 from torch import nn
+from torch.utils.tensorboard import SummaryWriter
 from torchvision import models
 
 from config import device, grad_clip, print_freq, num_classes
